@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block page_content %}
+<div class="items-list">
+    <h2> All Products </h2>
+    {% for product in products %}
+        <li>
+            <p>{{ product.name }}</p>
+            <p>{{ product.group }}</p>
+            <p>List price: {{ product.price|floatformat:2 }}$</p>
+        </li>
+        <div>
+            <a id="editbtn" href="{% url 'edit product' product.id %}">Edit</a> <a id="deletebtn" href="#">Delete</a>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% block page_content %}
+{% load mathfilters %}
+<section id="opp-profile">
+    <div class="details">
+        <div class="opp-text">
+            <h1>
+                Opportunity Name: {{ opportunity.name }}
+            </h1>
+            <h1>
+                Client: {{ opportunity.client }}
+            </h1>
+            <h1>
+                Owner: {{ opportunity.owner }}
+            </h1>
+            <p>Description:</p>
+            <h2>{{ opportunity.description }}</h2>
+            <table>
+                <tr>
+                    <th>Prod Name</th>
+                    <th>Prod Group</th>
+                    <th>Prod Price</th>
+                    <th>Quantity</th>
+                    <th>Total Amount</th>
+                </tr>
+{#                <tr><th>Quantity</th><th>Opp Name</th></tr>#}
+                {% for opp in opp_products %}
+{#                    <h4> {{ opp.group }} {{ opp.name }} {{ opp.price }} {{ opportunity.client.discount }} </h4>#}
+                    {%  for id in product_id %}
+                            {% if opp.id == id.name_id %}
+                                <tr>
+                                    <td>{{ id.name }}</td>
+                                    <td>{{ opp.group }}</td>
+                                    <td>{{ opp.price|floatformat:2 }}$</td>
+                                    <td>{{ id.quantity }}</td>
+                                    <td>{{ id.quantity|mul:opp.price|floatformat:2 }}$</td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                {% endfor %}
+            </table>
+
+            <h4>
+                Gross Price: {{ total_value|floatformat:2 }}$
+            </h4>
+            <h4>
+                Client Discount : {{ opportunity.client.discount }}%
+            </h4>
+            <h4>
+                Discount: -{{ discount|floatformat:2 }}$
+            </h4>
+            <h4>
+                Net Price: {{ total_value|sub:discount|floatformat:2 }}$
+            </h4>
+            <h3>
+                Create Date: {{ opportunity.create_date }}
+            </h3>
+            <h3>
+                Expected Close Date: {{ opportunity.close_date }}
+            </h3>
+            {% if is_owner %}
+                <div class="actionBtnOpp">
+                    <a class="editopp" href="{% url 'start edit' opportunity.id %}" >Edit</a>
+                    <a class="deleteopp" href="#" >Delete</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block page_content %}
+{% if in_edit_mode %}
+    <section id="opp-profile">
+        <div class="details">
+            <div class="opp-text">
+                <h1> You have not finalized one edit opportunity! </h1>
+                <h1> Name: {{ in_edit_mode.name }} </h1>
+                <h1> Name: {{ in_edit_mode.client }} </h1>
+                <h1> Owner: {{ in_edit_mode.owner }} </h1>
+                <h1> Created on: {{ in_edit_mode.create_date }} </h1>
+                <h1>Please finalize it before reaching your dashboard.</h1>
+                <h1>
+                    By clicking on below button you will be redirected to finalize page
+                    where you can "FINISH" pending editable opportunity.
+                </h1>
+                <div class="actionmessage">
+                    <a class="edit-opportunity" href="{% url 'opportunity all products' in_edit_mode.pk %}" >Continue</a>
+                </div>
+            </div>
+        </div>
+    </section>
+{% else %}
+    <div class="items-list">
+        {% if request.user.is_authenticated %}
+            <h2> Your activities: </h2>
+            <h2> # Opps: {{ opp_num }} </h2>
+            <h2> Total Net: {{ opps_total|floatformat:2 }}$ </h2>
+                {% for opp in opportunities %}
+                    {% if opp.owner == request.user or opp.owner.manager == request.user %}
+                        <li>
+                            <div>
+                                <p> Opp Name: {{ opp.name }} </p>
+                                <p> Owner: {{ opp.owner }} </p>
+                                <p> Status: {{ opp.status }} </p>
+                            </div>
+                            {% for key, value in opp_gross_amount.items %}
+                                {% if key == opp.id %}
+                                    <div id="opp-net-total">
+                                        Opp Net Amount: {{ value|floatformat:2 }}$
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </li>
+                        <div>
+                            <a id="detailbtn" href="{% url 'details opportunity' opp.id %}">Details</a>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+
+        {% else %}
+            <h2>FOR DASHBOARD PLEASE LOGIN or REQUEST USER</h2>
+            <div >
+                <a href="{% url 'request user' %}" >Request User</a>
+            </div>
+        {% endif %}
+    </div>
+{% endif %}
+{% endblock %}

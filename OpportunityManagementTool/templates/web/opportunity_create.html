@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block page_content %}
+
+{% if in_creation_mode %}
+    <section id="opp-profile">
+        <div class="details">
+            <div class="opp-text">
+                <h1> You have not finalized one new opportunity! </h1>
+                <h1> Name: {{ in_creation_mode.name }} </h1>
+                <h1> Name: {{ in_creation_mode.client }} </h1>
+                <h1> Owner: {{ in_creation_mode.owner }} </h1>
+                <h1> Created on: {{ in_creation_mode.create_date }} </h1>
+                <h1>Please finalize it to be allowed new opportunity creation.</h1>
+                <h1>
+                    By clicking on below button you will be redirected to finalize page
+                    where you can finish pending opportunity without any modification.
+                    After that can edit this opportunity from your dashboard or create
+                    new one.
+                </h1>
+                <div class="actionmessage">
+                    <a class="edit-opportunity" href="{% url 'create opportunity finish' in_creation_mode.pk %}" >Continue</a>
+                </div>
+            </div>
+        </div>
+    </section>
+{% else %}
+    <section class="createPage">
+        <form method="post">
+            <fieldset>
+                <legend>Create Opportunity Details</legend>
+                <div class="container">
+                    {{ form }}
+                    {% csrf_token %}
+                    <button class="create-opportunity" type="submit">Create</button>
+                </div>
+            </fieldset>
+        </form>
+    </section>
+{% endif %}
+{% endblock %}

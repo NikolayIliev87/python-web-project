@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block page_content %}
+<div class="items-list">
+    <h2> All Business Groups </h2>
+    {% for group in businessgroups %}
+        <li>
+            {{ group.name }}
+        </li>
+        <div>
+            <a id="editbtn" href="{% url 'edit businessgroup' group.id %}">Edit</a> <a id="deletebtn" href="#">Delete</a>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

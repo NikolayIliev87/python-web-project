@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block page_content %}
+<section class="editPage">
+    <form method="post" action="{% url 'edit profile' request.user.id %}">
+        <fieldset>
+            <legend>Edit Profile</legend>
+            <div class="container">
+                {% csrf_token %}
+                {{ form }}
+                <button class="edit-profile" type="submit">Edit</button>
+            </div>
+        </fieldset>
+    </form>
+</section>
+{% endblock %}

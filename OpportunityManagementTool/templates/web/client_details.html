@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block page_content %}
+<section id="client-profile">
+    <h1>CLIENT DETAILS PAGE</h1>
+        <div class="client-details">
+            <div class="client-text">
+                <h1>
+                    Client Name: {{ client.name }}
+                </h1>
+                <h1>
+                    Client City: {{ client.city }}
+                </h1>
+                <h1>
+                    Client Phone Number: {{ client.phone }}
+                </h1>
+                <h1>
+                    Client Email: {{ client.email }}
+                </h1>
+                <h1>
+                    Cleint Discount: {{ client.discount }}%
+                </h1>
+            </div>
+
+            <div class="actionBtnClient">
+                <a class="editclient" href="{% url 'edit client' client.id %}" >Edit</a>
+                <a class="deleteclient" href="#" >Delete</a>
+            </div>
+        </div>
+
+{% endblock %}

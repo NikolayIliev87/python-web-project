@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block page_content %}
+    <div class="items-list">
+        <h2>Edit Product List</h2>
+        <div >
+            {% for opp in opp_products %}
+                {%  for id in product_id %}
+                    {% if opp.id == id.name_id %}
+                        <li>
+                            <p> {{ opp.name }} </p>
+                            <p> {{ opp.group }} </p>
+                            <p> {{ opp.price }} </p>
+                            <p> {{ id.quantity }}</p>
+                            <p> {{ id.gross_price }}</p>
+                        </li>
+                        <div>
+                            <a id="editbtn" href="{% url 'edit opportunity product' id.pk %}" >Edit</a> <a id="deletebtn" href="#" >Delete</a>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+        </div>
+        <div class="actionBtnOpp">
+            <a class="addprod" href="{% url 'opportunity new product add' %}" >Add Product</a>
+            <a class="finishopp" href="{% url 'finish edit' opportunity.pk %}" >Finish</a>
+        </div>
+    </div>
+{% endblock %}

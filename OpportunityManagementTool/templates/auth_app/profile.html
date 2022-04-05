@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block page_content %}
+    <h1>PROFILE PAGE</h1>
+
+<section id="user-profile">
+    <div class="wrapper">
+        <div class="profile-picture">
+            <img src="{{ object.photo_url }}" alt="description">
+        </div>
+        <div class="profile-text">
+            <h1>
+                Name: {{ object.full_name }}
+            </h1>
+            <h1>
+                Email: {{ object.user.email }}
+            </h1>
+            <h1>
+                Manager: {{ object.manager }}
+            </h1>
+            <h1>
+                Is Manager: {{ object.is_manager }}
+            </h1>
+            <h1>
+                Business Group: {{ object.group }}
+            </h1>
+        </div>
+
+        <div class="actionBtn">
+            <a class="edit" href="{% url 'edit profile' request.user.id %}" >Edit</a>
+            <a class="delete" href="#" >Delete</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

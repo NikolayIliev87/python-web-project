@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block page_content %}
+<section class="createPage">
+    <form method="post">
+        <fieldset>
+            <legend>Create Opp Products</legend>
+            <div class="container">
+                {{ form }}
+                {% csrf_token %}
+                <button class="create-opportunity" type="submit">Add</button>
+                <h3> Products included in Opportunity:</h3>
+                <ul class="check-list">
+                    {% for prod in product_id %}
+                        <li> {{ prod.name }}:  {{ prod.quantity }} </li>
+                    {% endfor %}
+                </ul>
+                <a class="create-opportunity-finish" href="{% url 'create opportunity finish' opportunity.pk %}" >Continue</a>
+            </div>
+        </fieldset>
+    </form>
+</section>
+{% endblock %}

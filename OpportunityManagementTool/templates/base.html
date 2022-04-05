@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Opportunities Machine</title>
+    <!-- Static Load -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"/>
+</head>
+
+<body>
+<div>
+    <header>
+        <nav>
+            <img src="{% static 'images/background.jpg' %}" alt="background">
+            <a href="{% url 'index' %}">Home</a><ul></ul>
+            {% if request.user.is_authenticated %}
+                <ul>
+                    <li><a href="{% url 'profile' request.user.id %}" >Profile</a></li>
+                    <li><a href="{% url 'dashboard' %}" >Dashboard</a></li>
+                    <li><a href="#" >Logout</a></li>
+                </ul>
+            {% else %}
+                <ul>
+                    <li><a href="{% url 'login user' %}" >Log in</a></li>
+                </ul>
+            {% endif %}
+        </nav>
+    </header>
+
+    {% block page_content %}
+    {% endblock %}
+
+    <footer>
+        <div>
+            &copy;Nikolay Iliev
+        </div>
+    </footer>
+</div>
+</body>
+</html>

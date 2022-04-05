@@ -1,0 +1,109 @@
+.items-list {
+    margin: 50px 350px;
+    width: 1000px;
+    border-style: solid;
+    border-radius: 7px 7px 7px 7px;
+    background-color: darkslategrey;
+	background-image: linear-gradient(315deg, lightgrey 0%, darkslategrey 74%);
+}
+
+.items-list h2{
+    color: whitesmoke;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    padding: 0.5em;
+    display: inline-block;
+    width: 30%;
+    text-align: center;
+}
+
+.items-list li{
+    display: flex;
+    font-size: 30px;
+    list-style-type: none;
+    counter-increment: item;
+    background: #0d324d;
+    padding-bottom: 5px;
+    color: whitesmoke;
+}
+
+.items-list p{
+    text-transform: uppercase;
+    display: inline-block;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-right: 5px;
+    font-size: 22px;
+    width: 150%;
+}
+
+#cust-city {
+    width: 100%;
+    text-align: center;
+}
+
+#opp-net-total {
+    color: wheat;
+    text-align: right;
+    font-weight: bold;
+    margin-right: 10px;
+    margin-top: 25px;
+    font-size: 23px;
+}
+
+#editbtn, #detailbtn {
+    margin-top: 1%;
+    margin-bottom: 1%;
+    margin-left: 5%;
+    display: inline-block;
+    text-align: center;
+    padding-top: 2px;
+    box-shadow: 0 0 5px 0;
+    border-radius: 50px;
+    width: 100px;
+    height: 25px;
+    font-size: 20px;
+    text-decoration: none;
+    background-color: #1b2845;
+    background-image: linear-gradient(315deg, #45a29e 0%, #0d324d 74%);
+    color: #c5c6c7;
+}
+
+#editbtn:hover, #detailbtn:hover{
+    cursor: pointer;
+  color: #45a29e;
+  font-weight: bolder;
+}
+
+#deletebtn {
+    margin-left: 70%;
+    display: inline-block;
+    text-align: center;
+    padding-top: 2px;
+    box-shadow: 0 0 5px 0;
+    border-radius: 50px;
+    width: 100px;
+    height: 25px;
+    font-size: 20px;
+    text-decoration: none;
+    background-color: #1b2845;
+    background-image: linear-gradient(315deg, lightpink 0%, darkred 74%);
+    color: #c5c6c7;
+}
+
+#deletebtn:hover{
+    cursor: pointer;
+  color: lightcoral;
+  font-weight: bolder;
+}
+
+.items-list li:before {
+    content: counter(item);
+    margin-right: 5px;
+    font-size: 80%;
+    background-color: darkgoldenrod;
+    color: #7eb4e2;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 3px;
+}

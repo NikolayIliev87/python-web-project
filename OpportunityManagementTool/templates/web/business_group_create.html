@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block page_content %}
+<section class="createPage">
+    <form method="post">
+        <fieldset>
+            <legend>Create Business Group</legend>
+            <div class="container">
+                {{ form }}
+                {% csrf_token %}
+                <button class="create-bg" type="submit">Create</button>
+            </div>
+        </fieldset>
+    </form>
+</section>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block page_content %}
+<section id="user-home">
+    {% if request.user.is_authenticated %}
+        <h1>Welcome to your opportunity portal {{ request.user }}!</h1>
+        <div id="option-box">
+            <a href="{% url 'create opportunity' %}" class="fill-div">Create Opportunity</a>
+        </div>
+        <div id="option-box">
+            <a href="{% url 'clients catalog' %}" class="fill-div">Clients Catalog</a>
+        </div>
+        <div id="option-box">
+            <a href="{% url 'create client' %}" class="fill-div">Create Client</a>
+        </div>
+        <div id="option-box">
+            <a href="{% url 'products catalog' %}" class="fill-div">Products Catalog</a>
+        </div>
+        <div id="option-box">
+            <a href="{% url 'create product' %}" class="fill-div">Create Product</a>
+        </div>
+        <div id="option-box">
+            <a href="{% url 'create businessgroup' %}" class="fill-div">Create Business Group</a>
+        </div>
+        <div id="option-box">
+            <a href="{% url 'businessgroup catalog' %}" class="fill-div">Business Groups Catalog</a>
+        </div>
+
+
+    {% else %}
+        <h1>HOME WITHOUT PROFILE</h1>
+        <div >
+            <a href="{% url 'request user' %}" >Request User</a>
+        </div>
+    {% endif %}
+</section>
+{% endblock %}

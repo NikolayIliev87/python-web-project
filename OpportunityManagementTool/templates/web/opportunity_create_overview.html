@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block page_content %}
+<section id="opp-profile">
+    <div class="details">
+        <form method="post" action="{% url 'done' object.pk %}">
+            {% csrf_token %}
+            <div class="opp-text">
+                <h1>OPPORTUNITY OVERVIEW</h1>
+                <h3> Name: {{ opportunity.name }}</h3>
+                <h3> Description: {{ opportunity.description }}</h3>
+                <h3> Client: {{ opportunity.client }}</h3>
+                <h3> Close Date: {{ opportunity.close_date }}</h3>
+                <h3> Owner: {{ opportunity.owner }}</h3>
+                <h3> Status: {{ opportunity.status }}</h3>
+                <table>
+                    <tr>
+                        <th>Prod Name</th>
+                        <th>Prod Quantity</th>
+                        <th>Prod Price</th>
+                        <th>Total Net Amount</th>
+                    </tr>
+                {% for opp in opp_products %}
+                    <tr>
+                        <td> {{ opp.name }}</td>
+                        <td> {{ opp.quantity }}</td>
+                        <td> {{ opp.name.price }}</td>
+                        <td> {{ opp.gross_price }}</td>
+                    </tr>
+                {% endfor %}
+                </table>
+                <div class="actionBtnOpp">
+                    <button class="finishopp" type="submit">Finalize</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}

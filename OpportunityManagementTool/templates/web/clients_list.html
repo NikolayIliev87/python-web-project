@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block page_content %}
+<div class="items-list">
+    <h2> All Clients </h2>
+    {% for customer in clients %}
+        <li>
+            <p id="cust-name">{{ customer.name }}</p>
+            <p id="cust-city">{{ customer.city }}</p>
+        </li>
+        <div>
+            <a id="detailbtn" href="{% url 'details client' customer.id %}">Details</a>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}
