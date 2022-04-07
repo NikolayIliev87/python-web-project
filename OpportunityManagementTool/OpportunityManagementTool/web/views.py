@@ -2,7 +2,7 @@ from django.contrib.auth import mixins as auth_mixin
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views import generic as views
-from django.db.models import Q
+
 
 
 from OpportunityManagementTool.web.forms import CreateOpportunityForm, CreateClientForm, CreateProductForm, \
