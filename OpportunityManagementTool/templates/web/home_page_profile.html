@@ -27,9 +27,18 @@
 
 
     {% else %}
-        <h1>HOME WITHOUT PROFILE</h1>
-        <div >
-            <a href="{% url 'request user' %}" >Request User</a>
+        <div class="register-details">
+            <h2>
+                Welcome To Opportunity Management Tool!
+            </h2>
+            <h3>Please</h3>
+            <h3>to enter your profile</h3>
+            <h3>or</h3>
+            <h3>to start your journe</h3>
+                <ul>
+                    <li><a href="{% url 'request user' %}" >Register</a></li>
+                    <li><a href="{% url 'login user' %}" >Log in</a></li>
+                </ul>
         </div>
     {% endif %}
 </section>
