@@ -1,11 +1,15 @@
 {% extends 'base.html' %}
 {% block page_content %}
-    <h1>PROFILE CREATE PAGE</h1>
-
+<section class="createPage">
     <form method="post" action="{% url 'request user' %}">
-        {{ form }}
-        {% csrf_token %}
-        <button type="submit">Request</button>
+        <fieldset id="profile-create">
+            <legend>Create Profile</legend>
+            <div class="container">
+                {{ form }}
+                {% csrf_token %}
+                <button class="create-client" type="submit">Create</button>
+            </div>
+        </fieldset>
     </form>
-
+</section>
 {% endblock %}

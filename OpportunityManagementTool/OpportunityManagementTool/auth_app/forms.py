@@ -50,6 +50,12 @@ class CreateProfileForm(auth_forms.UserCreationForm):
                 manager.save()
         return user
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.fields['password1'].help_text = ''
+        self.fields['password2'].help_text = ''
+
     class Meta:
         model = get_user_model()
         fields = ('email', 'password1', 'password2', 'first_name', 'last_name', 'phone', 'photo_url', 'is_manager', 'manager', 'group')

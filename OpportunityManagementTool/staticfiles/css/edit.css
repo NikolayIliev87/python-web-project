@@ -9,6 +9,56 @@ fieldset {
   box-shadow: 0 2px 2px #131518;
 }
 
+#profile-create {
+  margin-left: 600px;
+  padding: 2em;
+  width: 30em;
+  height: 800px;
+  border-radius: 5px;
+  border-color: #2d333b;
+  background: darkslategrey;
+  box-shadow: 0 2px 2px #131518;
+}
+
+#profile-create input{
+  border-radius: 3px;
+  box-shadow: none;
+  border: 1px solid #384049;
+  background: #15171b;
+  display: block;
+  width: 80%;
+  height: 30px;
+  color: white;
+  font-size: 20px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+#log-in {
+  margin-left: 600px;
+  padding: 2em;
+  width: 30em;
+  height: 250px;
+  border-radius: 5px;
+  border-color: #2d333b;
+  background: darkslategrey;
+  box-shadow: 0 2px 2px #131518;
+}
+
+#log-in input{
+  border-radius: 3px;
+  box-shadow: none;
+  border: 1px solid #384049;
+  background: #15171b;
+  display: block;
+  width: 80%;
+  height: 30px;
+  color: white;
+  font-size: 20px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
 fieldset legend{
   font-weight: 700;
   font-size: 26px;
@@ -67,7 +117,7 @@ input[type=text]:focus, input[type=number]:focus, textarea:focus, input[type=url
   color: #c5c6c7;
 }
 
-.edit-profile:hover, .edit-client:hover, .create-client:hover, .create-opportunity:hover, .create-opportunity-finish:hover, .create-product:hover, .edit-product:hover, .edit-bg:hover, .create-bg:hover, .edit-opportunity:hover, .add-opp_prod:hover{
+.log-in:hover, .edit-profile:hover, .edit-client:hover, .create-client:hover, .create-opportunity:hover, .create-opportunity-finish:hover, .create-product:hover, .edit-product:hover, .edit-bg:hover, .create-bg:hover, .edit-opportunity:hover, .add-opp_prod:hover{
   cursor: pointer;
   color: #45a29e;
   font-weight: bolder;
@@ -78,6 +128,21 @@ input[type=text]:focus, input[type=number]:focus, textarea:focus, input[type=url
   text-decoration: none;
   height: 30px;
   background-image: linear-gradient(315deg, rosybrown 0%, darkred 74%);
+}
+
+.log-in {
+  margin-top: 20px;
+  margin-left: 150px;
+  text-align: center;
+  box-shadow: 0 0 5px 0;
+  border-radius: 100px;
+  display: block;
+  width: 150px;
+  height: 50px;
+  font-size: 25px;
+  background-color: #1b2845;
+  background-image: linear-gradient(315deg, #45a29e 0%, #0d324d 74%);
+  color: #c5c6c7;
 }
 
 /*checklist of the products included in opportunity*/

@@ -32,10 +32,26 @@ a.fill-div {
 
 }
 
-#user-home h1{
-    color: lightgrey;
-    text-align: left;
-    margin-top: 20px;
-    font-size: 26px;
-    max-inline-size: 250px;
+.register-details {
+    height: 300px;
+    width: 1400px;
+    /*border-radius: 10px 10px 10px 10px;*/
+    /*box-shadow: 0 0 2px 3px gray;*/
+    margin: 100px auto 200px;
+    /*background: dimgrey;*/
+    padding-top: 10px;
 }
+
+
+#user-home h2{
+    display: inline-block;
+    margin-top: 70px;
+    text-align: center;
+    position: center;
+    color: navajowhite;
+    font-size: 50px;
+    font-weight: 1000;
+}
+
+
+
