@@ -38,7 +38,20 @@ fieldset {
   margin-left: 600px;
   padding: 2em;
   width: 30em;
-  height: 250px;
+  height: 270px;
+  border-radius: 5px;
+  border-color: #2d333b;
+  background: darkslategrey;
+  box-shadow: 0 2px 2px #131518;
+}
+
+#delete-item {
+  font-size: 18px;
+  color: ghostwhite;
+  margin-left: 500px;
+  padding: 2em;
+  width: 30em;
+  height: 270px;
   border-radius: 5px;
   border-color: #2d333b;
   background: darkslategrey;
@@ -103,6 +116,15 @@ input[type=text]:focus, input[type=number]:focus, textarea:focus, input[type=url
   border-color: lightyellow;
 }
 
+.change-pass {
+  color: whitesmoke;
+  font-size: 15px;
+  font-weight: 100;
+  text-decoration: none;
+  background: darkred;
+  border: 3px solid darkred;
+}
+
 .edit-profile, .create-client, .edit-client, .create-opportunity , .create-opportunity-finish, .create-product, .edit-product, .edit-bg, .create-bg, .edit-opportunity, .add-opp_prod{
   margin-left: 150px;
   text-align: center;
@@ -117,7 +139,7 @@ input[type=text]:focus, input[type=number]:focus, textarea:focus, input[type=url
   color: #c5c6c7;
 }
 
-.log-in:hover, .edit-profile:hover, .edit-client:hover, .create-client:hover, .create-opportunity:hover, .create-opportunity-finish:hover, .create-product:hover, .edit-product:hover, .edit-bg:hover, .create-bg:hover, .edit-opportunity:hover, .add-opp_prod:hover{
+.cancel-delete:hover, .delete-item:hover, .change-pass:hover, .log-in:hover, .edit-profile:hover, .edit-client:hover, .create-client:hover, .create-opportunity:hover, .create-opportunity-finish:hover, .create-product:hover, .edit-product:hover, .edit-bg:hover, .create-bg:hover, .edit-opportunity:hover, .add-opp_prod:hover{
   cursor: pointer;
   color: #45a29e;
   font-weight: bolder;
@@ -128,6 +150,38 @@ input[type=text]:focus, input[type=number]:focus, textarea:focus, input[type=url
   text-decoration: none;
   height: 30px;
   background-image: linear-gradient(315deg, rosybrown 0%, darkred 74%);
+}
+
+.delete-item {
+  color: #c5c6c7;
+  margin-left: 12%;
+  text-align: center;
+  box-shadow: 0 0 5px 0;
+  border-radius: 100px;
+  display: inline-block;
+  width: 30%;
+  height: 50px;
+  font-size: 25px;
+  margin-bottom: 10px;
+  text-decoration: none;
+  background-image: linear-gradient(315deg, rosybrown 0%, darkred 74%);
+}
+
+.cancel-delete {
+  padding-top: 8px;
+  text-align: center;
+  color: #c5c6c7;
+  margin-left: 12%;
+  box-shadow: 0 0 5px 0;
+  border-radius: 100px;
+  display: inline-block;
+  width: 30%;
+  height: 40px;
+  font-size: 25px;
+  margin-bottom: 10px;
+  text-decoration: none;
+  background-color: #1b2845;
+  background-image: linear-gradient(315deg, #45a29e 0%, #0d324d 74%);
 }
 
 .log-in {

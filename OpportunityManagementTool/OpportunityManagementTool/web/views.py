@@ -1,9 +1,8 @@
 from django.contrib.auth import mixins as auth_mixin
+from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views import generic as views
-
-
 
 from OpportunityManagementTool.web.forms import CreateOpportunityForm, CreateClientForm, CreateProductForm, \
     CreateBusinessGroupForm, CreateProductsOpportunityForm, AddNewProductForm
@@ -24,8 +23,9 @@ class HomeView(views.TemplateView):
     #         return redirect('profile', request.user.id)
     #     return super().dispatch(request, *args, **kwargs)
 
+
 # OK
-class DashboardView(views.ListView):
+class DashboardView(auth_mixin.LoginRequiredMixin, views.ListView):
     model = Opportunity
     template_name = 'web/dashboard.html'
     context_object_name = "opportunities"
@@ -36,8 +36,8 @@ class DashboardView(views.ListView):
         opp_num = 0
         opps_total = 0
 
-        for el in Opportunity.objects.all():
-            if el.owner == self.request.user or el.owner.manager == self.request.user:
+        for el in Opportunity.objects.filter(to_be_deleted=False):
+            if el.owner == self.request.user or el.owner.manager == self.request.user.id:
                 for prod in OpportunityProducts.objects.all():
                     if el.id == prod.opportunity_id:
                         if el.id in opp_gross_amount:
@@ -61,6 +61,18 @@ class DashboardView(views.ListView):
             return context
 
         # return context
+    def get_queryset(self):
+        return Opportunity.objects.filter(to_be_deleted=False)
+
+
+# OK
+class ToBeDeletedOppsView(auth_mixin.LoginRequiredMixin, views.ListView):
+    model = Opportunity
+    template_name = 'web/to_be_deleted_opportunities_list.html'
+    context_object_name = "opportunities"
+
+    def get_queryset(self):
+        return Opportunity.objects.filter(to_be_deleted=True)
 
 
 # OK
@@ -75,7 +87,7 @@ class CreateOpportunityView(auth_mixin.LoginRequiredMixin, views.CreateView):
         kwargs['owner'] = self.request.user
         return kwargs
 
-    #check if there is opportunity which should be finalized
+    # check if there is opportunity which should be finalized
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         try:
@@ -85,6 +97,7 @@ class CreateOpportunityView(auth_mixin.LoginRequiredMixin, views.CreateView):
                 return context
         except:
             return context
+
 
 # OK
 class CreateProductsOpportunityView(auth_mixin.LoginRequiredMixin, views.CreateView):
@@ -110,7 +123,7 @@ class CreateProductsOpportunityView(auth_mixin.LoginRequiredMixin, views.CreateV
         return kwargs
 
 
-#OK
+# OK
 def done(request, pk):
     opp = Opportunity.objects.get(pk=pk)
     opp.newly_created = False
@@ -132,6 +145,13 @@ def finish_editing(request, pk):
     return redirect('details opportunity', pk)
 
 
+def delete_opp(request, pk):
+    opp = Opportunity.objects.get(pk=pk)
+    opp.to_be_deleted = True
+    opp.save()
+    return redirect('dashboard')
+
+
 # OK
 class OpportunityCreateOverView(views.DetailView):
     model = Opportunity
@@ -142,6 +162,7 @@ class OpportunityCreateOverView(views.DetailView):
         context = super().get_context_data(**kwargs)
         context['opp_products'] = OpportunityProducts.objects.filter(opportunity_id=self.object.pk)
         return context
+
 
 # OK
 class OpportunityDetailsView(auth_mixin.LoginRequiredMixin, views.DetailView):
@@ -168,6 +189,7 @@ class OpportunityDetailsView(auth_mixin.LoginRequiredMixin, views.DetailView):
         context['product_id'] = product_id
         return context
 
+
 # OK
 class EditOpportunityView(views.UpdateView):
     model = Opportunity
@@ -181,6 +203,7 @@ class EditOpportunityView(views.UpdateView):
         # return reverse_lazy('edit opportunity products', kwargs={'pk': products_id.pk})
 
 
+# OK
 class OppProductsView(auth_mixin.LoginRequiredMixin, views.DetailView):
     model = Opportunity
     template_name = 'web/opportunity_all_products.html'
@@ -194,6 +217,7 @@ class OppProductsView(auth_mixin.LoginRequiredMixin, views.DetailView):
         context['product_id'] = OpportunityProducts.objects.filter(opportunity_id=self.object.pk)
         return context
 
+
 # OK
 class EditOpportunityProductsView(views.UpdateView):
     model = OpportunityProducts
@@ -204,6 +228,7 @@ class EditOpportunityProductsView(views.UpdateView):
     def get_success_url(self):
         return reverse_lazy('opportunity all products', kwargs={'pk': self.object.opportunity_id})
         # return reverse_lazy('details opportunity', kwargs={'pk': self.object.opportunity_id})
+
 
 # OK
 class AddNewProductView(auth_mixin.LoginRequiredMixin, views.CreateView):
@@ -219,9 +244,20 @@ class AddNewProductView(auth_mixin.LoginRequiredMixin, views.CreateView):
         kwargs['opportunity'] = Opportunity.objects.get(is_edite=True)
         return kwargs
 
-# TO BE CREATED
+
+# OK
 class DeleteOpportunityView(views.DeleteView):
-    pass
+    model = Opportunity
+    template_name = 'web/opportunity_delete_list.html'
+    success_url = reverse_lazy('opps to be deleted')
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+
+        success_url = self.get_success_url()
+        self.object.delete()
+
+        return HttpResponseRedirect(success_url)
 
 
 # OK
@@ -230,17 +266,13 @@ class CreateClientView(auth_mixin.LoginRequiredMixin, views.CreateView):
     template_name = 'web/client_create.html'
     success_url = reverse_lazy('index')
 
-    # as owner is hidden from the form to be populated should be updated this method
-    # def get_form_kwargs(self):
-    #     kwargs = super().get_form_kwargs()
-    #     kwargs['owner'] = self.request.user
-    #     return kwargs
 
 # OK
 class ClientDetailsView(auth_mixin.LoginRequiredMixin, views.DetailView):
     model = Client
     template_name = 'web/client_details.html'
     context_object_name = 'client'
+
 
 # OK
 class EditClientView(views.UpdateView):
@@ -250,27 +282,33 @@ class EditClientView(views.UpdateView):
     success_url = reverse_lazy('clients catalog')
 
 
+# OK
 class ClientsListView(views.ListView):
     model = Client
     template_name = 'web/clients_list.html'
     context_object_name = "clients"
 
 
-# TO BE CREATED
+# OK
 class DeleteClientView(views.DeleteView):
-    pass
+    model = Client
+    template_name = 'web/client_delete.html'
+    success_url = reverse_lazy('clients catalog')
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        for opp in Opportunity.objects.filter(client=self.object):
+            opp.delete()
+        success_url = self.get_success_url()
+        self.object.delete()
+
+        return HttpResponseRedirect(success_url)
 
 
 class CreateProductView(auth_mixin.LoginRequiredMixin, views.CreateView):
     form_class = CreateProductForm
     template_name = 'web/product_create.html'
     success_url = reverse_lazy('index')
-
-    # as owner is hidden from the form to be populated should be updated this method
-    # def get_form_kwargs(self):
-    #     kwargs = super().get_form_kwargs()
-    #     kwargs['owner'] = self.request.user
-    #     return kwargs
 
 
 # OK
@@ -288,21 +326,27 @@ class ProductsListView(views.ListView):
     context_object_name = "products"
 
 
-# TO BE CREATED
+# Ok
 class DeleteProductView(views.DeleteView):
-    pass
+    model = Product
+    template_name = 'web/product_delete.html'
+    success_url = reverse_lazy('products catalog')
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        for prod in OpportunityProducts.objects.filter(name_id=self.object):
+            prod.delete()
+        success_url = self.get_success_url()
+        self.object.delete()
+
+        return HttpResponseRedirect(success_url)
 
 
+# Ok
 class CreateBusinessGroupView(auth_mixin.LoginRequiredMixin, views.CreateView):
     form_class = CreateBusinessGroupForm
     template_name = 'web/business_group_create.html'
     success_url = reverse_lazy('index')
-
-    # as owner is hidden from the form to be populated should be updated this method
-    # def get_form_kwargs(self):
-    #     kwargs = super().get_form_kwargs()
-    #     kwargs['owner'] = self.request.user
-    #     return kwargs
 
 
 # OK
@@ -319,7 +363,3 @@ class BusinessGroupsListView(views.ListView):
     template_name = 'web/business_group_list.html'
     context_object_name = "businessgroups"
 
-
-# TO BE CREATED
-class DeleteBusinessGroupView(views.DeleteView):
-    pass

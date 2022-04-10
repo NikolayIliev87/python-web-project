@@ -61,7 +61,7 @@
             {% if is_owner %}
                 <div class="actionBtnOpp">
                     <a class="editopp" href="{% url 'start edit' opportunity.id %}" >Edit</a>
-                    <a class="deleteopp" href="#" >Delete</a>
+                    <a class="deleteopp" href="{% url 'delete opp' opportunity.id %}" >Delete</a>
                 </div>
             {% endif %}
         </div>
