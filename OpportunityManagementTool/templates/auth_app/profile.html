@@ -5,23 +5,26 @@
 <section id="user-profile">
     <div class="wrapper">
         <div class="profile-picture">
-            <img src="{{ object.photo_url }}" alt="description">
+            <img src="{{ profile.photo_url }}" alt="description">
         </div>
         <div class="profile-text">
             <h1>
-                Name: {{ object.full_name }}
+                Name: {{ profile.full_name }}
             </h1>
             <h1>
-                Email: {{ object.user.email }}
+                Email: {{ profile.user.email }}
             </h1>
             <h1>
-                Manager: {{ object.manager }}
+                Manager: {{ profile.manager }}
             </h1>
             <h1>
-                Is Manager: {{ object.is_manager }}
+                Is Manager: {{ profile.is_manager }}
             </h1>
             <h1>
-                Business Group: {{ object.group }}
+                Business Group: {{ profile.group }}
+            </h1>
+            <h1>
+                Opportunities #: {{ opps_total }}
             </h1>
         </div>
 

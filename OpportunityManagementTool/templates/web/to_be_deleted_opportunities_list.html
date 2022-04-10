@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block page_content %}
+<div class="items-list">
+    <h2> To Be Deleted Opportunities </h2>
+    {% if opportunities %}
+        {% for opp in opportunities %}
+            <li>
+                <p>Opp ID: {{ opp.id }}</p>
+                <p>Owner: {{ opp.owner }}</p>
+                <p>To Be Deleted: {{ opp.to_be_deleted }}</p>
+            </li>
+            <div>
+                <a id="deletebtn" href="{% url 'delete opportunity' opp.id %}">Delete</a>
+            </div>
+        {% endfor %}
+    {% else %}
+        <h1> There is no item currently </h1>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block page_content %}
+<section class="editPage">
+    <form method="post" >
+        <fieldset id="delete-item">
+            <legend>Delete Client</legend>
+            <div class="container">
+                {{ form }}
+                {% csrf_token %}
+                <h1>Are you sure you want to delete client "{{ client.name }}" and all it's related opportunities?</h1>
+                <a class="cancel-delete" href="{% url 'index' %}">Cancel</a>
+                <button class="delete-item" type="submit">Delete</button>
+            </div>
+        </fieldset>
+    </form>
+</section>
+{% endblock %}

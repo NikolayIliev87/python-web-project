@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
+import sys
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -20,7 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('SECRET_KEY')
+SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-=7$h##2&&^o!@h*pgck=qaqn0&nty%pka#4)-%rp_e19c5u$qe')
     # 'django-insecure-=7$h##2&&^o!@h*pgck=qaqn0&nty%pka#4)-%rp_e19c5u$qe'
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -28,7 +29,7 @@ DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
 APP_ENVIRONMENT = os.getenv('APP_ENVIRONMENT', 'Development')
 
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(' ')
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(' ')
 # [
 #     'localhost',
 #     '127.0.0.1',
@@ -102,10 +103,10 @@ if APP_ENVIRONMENT == 'Production':
 else:
     DEFAULT_DATABASE_CONFIG = {
             'ENGINE': 'django.db.backends.postgresql',
-            'NAME': os.getenv('DB_NAME'),
-            'USER': os.getenv('DB_USER'),
-            'PASSWORD': os.getenv('DB_PASSWORD'),
-            'HOST': os.getenv('DB_HOST'),
+            'NAME': os.getenv('DB_NAME', 'OpportunityManagementTool'),
+            'USER': os.getenv('DB_USER', 'postgres'),
+            'PASSWORD': os.getenv('DB_PASSWORD', '1123QwER'),
+            'HOST': os.getenv('DB_HOST', '127.0.0.1'),
             'PORT': os.getenv('DB_PORT', '5432'),
         }
 
@@ -210,8 +211,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGGING_LEVEL = 'DEBUG'
 
+is_test = len(sys.argv) > 1 and sys.argv[1] == 'test'
+
 if APP_ENVIRONMENT == "Production":
     LOGGING_LEVEL = 'INFO'
+elif is_test:
+    LOGGING_LEVEL = 'CRITICAL'
 
 LOGGING = {
     'version': 1,
