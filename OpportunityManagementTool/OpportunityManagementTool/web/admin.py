@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from OpportunityManagementTool.web.models import BusinessGroup, Client, Opportunity, Product
+from OpportunityManagementTool.web.models import BusinessGroup, Client, Opportunity, Product, OpportunityProducts
 
 
 @admin.register(Client)
@@ -20,4 +20,9 @@ class BusinessGroupAdmin(admin.ModelAdmin):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(OpportunityProducts)
+class OpportunityProductsAdmin(admin.ModelAdmin):
     pass
