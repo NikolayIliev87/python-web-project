@@ -7,27 +7,31 @@
             <a href="{% url 'create opportunity' %}" class="fill-div">Create Opportunity</a>
         </div>
         <div id="option-box">
-            <a href="{% url 'opps to be deleted' %}" class="fill-div">To Be Deleted Opportunities</a>
-        </div>
-        <div id="option-box">
             <a href="{% url 'clients catalog' %}" class="fill-div">Clients Catalog</a>
-        </div>
-        <div id="option-box">
-            <a href="{% url 'create client' %}" class="fill-div">Create Client</a>
         </div>
         <div id="option-box">
             <a href="{% url 'products catalog' %}" class="fill-div">Products Catalog</a>
         </div>
         <div id="option-box">
-            <a href="{% url 'create product' %}" class="fill-div">Create Product</a>
-        </div>
-        <div id="option-box">
-            <a href="{% url 'create businessgroup' %}" class="fill-div">Create Business Group</a>
-        </div>
-        <div id="option-box">
             <a href="{% url 'businessgroup catalog' %}" class="fill-div">Business Groups Catalog</a>
         </div>
 
+        {% if user.is_staff %}
+            <div id="option-box">
+            <a href="{% url 'create client' %}" class="fill-div">Create Client</a>
+            </div>
+        {% endif %}
+        {% if user.is_superuser %}
+            <div id="option-box">
+                <a href="{% url 'create product' %}" class="fill-div">Create Product</a>
+            </div>
+            <div id="option-box">
+                <a href="{% url 'create businessgroup' %}" class="fill-div">Create Business Group</a>
+            </div>
+            <div id="option-box">
+                <a href="{% url 'opps to be deleted' %}" class="fill-div">To Be Deleted Opportunities</a>
+            </div>
+        {% endif %}
 
     {% else %}
         <div class="register-details">

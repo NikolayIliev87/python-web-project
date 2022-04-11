@@ -1,5 +1,5 @@
 from django.contrib.auth import mixins as auth_mixin
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponseForbidden
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views import generic as views
@@ -70,6 +70,11 @@ class ToBeDeletedOppsView(auth_mixin.LoginRequiredMixin, views.ListView):
     model = Opportunity
     template_name = 'web/to_be_deleted_opportunities_list.html'
     context_object_name = "opportunities"
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_superuser:
+            return HttpResponseForbidden()
+        return super(ToBeDeletedOppsView, self).dispatch(request, *args, **kwargs)
 
     def get_queryset(self):
         return Opportunity.objects.filter(to_be_deleted=True)
@@ -266,6 +271,11 @@ class CreateClientView(auth_mixin.LoginRequiredMixin, views.CreateView):
     template_name = 'web/client_create.html'
     success_url = reverse_lazy('index')
 
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_staff or not request.user.is_superuser:
+            return HttpResponseForbidden()
+        return super(CreateClientView, self).dispatch(request, *args, **kwargs)
+
 
 # OK
 class ClientDetailsView(auth_mixin.LoginRequiredMixin, views.DetailView):
@@ -281,6 +291,12 @@ class EditClientView(views.UpdateView):
     fields = ('name', 'city', 'email', 'phone', 'discount',)
     success_url = reverse_lazy('clients catalog')
 
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_staff or not request.user.is_superuser:
+            return HttpResponseForbidden()
+        return super(EditClientView, self).dispatch(request, *args, **kwargs)
+
+
 
 # OK
 class ClientsListView(views.ListView):
@@ -294,6 +310,11 @@ class DeleteClientView(views.DeleteView):
     model = Client
     template_name = 'web/client_delete.html'
     success_url = reverse_lazy('clients catalog')
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_superuser:
+            return HttpResponseForbidden()
+        return super(DeleteClientView, self).dispatch(request, *args, **kwargs)
 
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()
@@ -310,6 +331,11 @@ class CreateProductView(auth_mixin.LoginRequiredMixin, views.CreateView):
     template_name = 'web/product_create.html'
     success_url = reverse_lazy('index')
 
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_superuser:
+            return HttpResponseForbidden()
+        return super(CreateProductView, self).dispatch(request, *args, **kwargs)
+
 
 # OK
 class EditProductView(views.UpdateView):
@@ -317,6 +343,11 @@ class EditProductView(views.UpdateView):
     template_name = 'web/product_edit.html'
     fields = ('name', 'group', 'price',)
     success_url = reverse_lazy('products catalog')
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_superuser:
+            return HttpResponseForbidden()
+        return super(EditProductView, self).dispatch(request, *args, **kwargs)
 
 
 # OK
@@ -331,6 +362,11 @@ class DeleteProductView(views.DeleteView):
     model = Product
     template_name = 'web/product_delete.html'
     success_url = reverse_lazy('products catalog')
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_superuser:
+            return HttpResponseForbidden()
+        return super(DeleteProductView, self).dispatch(request, *args, **kwargs)
 
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()
@@ -348,6 +384,11 @@ class CreateBusinessGroupView(auth_mixin.LoginRequiredMixin, views.CreateView):
     template_name = 'web/business_group_create.html'
     success_url = reverse_lazy('index')
 
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_superuser:
+            return HttpResponseForbidden()
+        return super(CreateBusinessGroupView, self).dispatch(request, *args, **kwargs)
+
 
 # OK
 class EditBusinessGroupView(views.UpdateView):
@@ -355,6 +396,11 @@ class EditBusinessGroupView(views.UpdateView):
     template_name = 'web/business_group_edit.html'
     fields = ('name',)
     success_url = reverse_lazy('businessgroup catalog')
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_superuser:
+            return HttpResponseForbidden()
+        return super(EditBusinessGroupView, self).dispatch(request, *args, **kwargs)
 
 
 # OK

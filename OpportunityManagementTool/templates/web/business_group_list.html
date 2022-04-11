@@ -6,9 +6,11 @@
         <li>
             {{ group.name }}
         </li>
-        <div>
-            <a id="editbtn" href="{% url 'edit businessgroup' group.id %}">Edit</a>
-        </div>
+        {% if user.is_superuser %}
+            <div>
+                <a id="editbtn" href="{% url 'edit businessgroup' group.id %}">Edit</a>
+            </div>
+        {% endif %}
     {% endfor %}
 </div>
 {% endblock %}
