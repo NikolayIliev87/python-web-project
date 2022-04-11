@@ -8,9 +8,11 @@
             <p>{{ product.group }}</p>
             <p>List price: {{ product.price|floatformat:2 }}$</p>
         </li>
-        <div>
-            <a id="editbtn" href="{% url 'edit product' product.id %}">Edit</a> <a id="deletebtn" href="{% url 'delete product' product.id %}">Delete</a>
-        </div>
+        {% if user.is_superuser %}
+            <div>
+                <a id="editbtn" href="{% url 'edit product' product.id %}">Edit</a> <a id="deletebtn" href="{% url 'delete product' product.id %}">Delete</a>
+            </div>
+        {% endif %}
     {% endfor %}
 </div>
 {% endblock %}
