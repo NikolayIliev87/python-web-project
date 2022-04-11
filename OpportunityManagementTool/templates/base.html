@@ -18,13 +18,13 @@
                 <ul>
                     <li><a href="{% url 'profile' request.user.id %}" >Profile</a></li>
                     <li><a href="{% url 'dashboard' %}" >Dashboard</a></li>
-                    <li><a href="#" >Logout</a></li>
+                    <li><a href="{% url 'logout user' %}" >Logout</a></li>
                 </ul>
-            {% else %}
-                <ul>
-                    <li><a href="{% url 'request user' %}" >Register</a></li>
-                    <li><a href="{% url 'login user' %}" >Log in</a></li>
-                </ul>
+{#            {% else %}#}
+{#                <ul>#}
+{#                    <li><a href="{% url 'request user' %}" >Register</a></li>#}
+{#                    <li><a href="{% url 'login user' %}" >Log in</a></li>#}
+{#                </ul>#}
             {% endif %}
         </nav>
     </header>
