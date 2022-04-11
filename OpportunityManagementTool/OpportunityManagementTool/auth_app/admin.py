@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from OpportunityManagementTool.auth_app.models import Profile, Manager
+from OpportunityManagementTool.auth_app.models import Profile, Manager, OpportunityManagementToolUser
 
 
 @admin.register(Profile)
@@ -10,4 +10,9 @@ class ProfileAdmin(admin.ModelAdmin):
 
 @admin.register(Manager)
 class ManagerAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(OpportunityManagementToolUser)
+class OpportunityManagementToolUserAdmin(admin.ModelAdmin):
     pass
