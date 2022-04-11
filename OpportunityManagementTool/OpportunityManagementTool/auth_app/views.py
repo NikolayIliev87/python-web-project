@@ -1,7 +1,7 @@
-from django.contrib.auth import views as auth_views
+from django.contrib.auth import views as auth_views, logout
 from django.views import generic as views
 from django.contrib.auth import mixins as auth_mixin
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.db.models import Q
 
@@ -29,6 +29,11 @@ class UserLoginView(auth_views.LoginView):
         if self.success_url:
             return self.success_url
         return super().get_success_url()
+
+
+def log_out_user(request):
+    logout(request)
+    return redirect('index')
 
 
 class UserDetailsView(auth_mixin.LoginRequiredMixin, views.DetailView):
