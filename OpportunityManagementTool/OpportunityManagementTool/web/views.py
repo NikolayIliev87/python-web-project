@@ -18,11 +18,6 @@ class HomeView(views.TemplateView):
 
         return context
 
-    # def dispatch(self, request, *args, **kwargs):
-    #     if request.user.is_authenticated:
-    #         return redirect('profile', request.user.id)
-    #     return super().dispatch(request, *args, **kwargs)
-
 
 # OK
 class DashboardView(auth_mixin.LoginRequiredMixin, views.ListView):
@@ -117,10 +112,6 @@ class CreateProductsOpportunityView(auth_mixin.LoginRequiredMixin, views.CreateV
         context['product_id'] = OpportunityProducts.objects.filter(opportunity_id=opp_id)
         return context
 
-    # def get_success_url(self):
-        # products_id = OpportunityProducts.objects.get(pk=self.object.pk)
-        # return reverse_lazy('create opportunity finish', kwargs={'pk': products_id.opportunity_id})
-
     # as opportunity is hidden from the form to be populated should be updated this method
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
@@ -175,6 +166,9 @@ class OpportunityDetailsView(auth_mixin.LoginRequiredMixin, views.DetailView):
     template_name = 'web/opportunity_details.html'
     context_object_name = 'opportunity'
 
+    def get_queryset(self):
+        return Opportunity.objects.filter(owner_id=self.request.user.pk)
+
     def get_context_data(self, **kwargs):
         opp_products = self.object.products.all()
         product_id = OpportunityProducts.objects.filter(opportunity_id=self.object.pk)
@@ -189,8 +183,6 @@ class OpportunityDetailsView(auth_mixin.LoginRequiredMixin, views.DetailView):
         context['opp_products'] = opp_products
         context['total_value'] = total_value
         context['discount'] = discount
-        # context['client_discount_int'] = self.object.client.discount / 100
-        # context['product_id'] = OpportunityProducts.objects.get(opportunity_id=self.object.pk)
         context['product_id'] = product_id
         return context
 
@@ -200,7 +192,9 @@ class EditOpportunityView(views.UpdateView):
     model = Opportunity
     template_name = 'web/opportunity_edit.html'
     fields = ('name', 'description', 'client', 'close_date')
-    # success_url = reverse_lazy('edit opportunity products', kwargs={'pk': self.object.pk})
+
+    def get_queryset(self):
+        return Opportunity.objects.filter(owner_id=self.request.user.pk)
 
     def get_success_url(self):
         # products_id = OpportunityProducts.objects.get(opportunity_id=self.object.pk)
@@ -214,11 +208,13 @@ class OppProductsView(auth_mixin.LoginRequiredMixin, views.DetailView):
     template_name = 'web/opportunity_all_products.html'
     context_object_name = "opportunity"
 
+    def get_queryset(self):
+        return Opportunity.objects.filter(owner_id=self.request.user.pk)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['is_owner'] = self.object.owner == self.request.user
         context['opp_products'] = self.object.products.all()
-        # context['product_id'] = OpportunityProducts.objects.get(opportunity_id=self.object.pk)
         context['product_id'] = OpportunityProducts.objects.filter(opportunity_id=self.object.pk)
         return context
 
@@ -228,11 +224,9 @@ class EditOpportunityProductsView(views.UpdateView):
     model = OpportunityProducts
     template_name = 'web/opportunity_edit_products.html'
     fields = ('name', 'quantity',)
-    # success_url = reverse_lazy('dashboard')
 
     def get_success_url(self):
         return reverse_lazy('opportunity all products', kwargs={'pk': self.object.opportunity_id})
-        # return reverse_lazy('details opportunity', kwargs={'pk': self.object.opportunity_id})
 
 
 # OK
@@ -272,9 +266,11 @@ class CreateClientView(auth_mixin.LoginRequiredMixin, views.CreateView):
     success_url = reverse_lazy('index')
 
     def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_staff or not request.user.is_superuser:
+        if request.user.is_staff or request.user.is_superuser:
+            return super(CreateClientView, self).dispatch(request, *args, **kwargs)
+        else:
             return HttpResponseForbidden()
-        return super(CreateClientView, self).dispatch(request, *args, **kwargs)
+
 
 
 # OK
@@ -292,10 +288,10 @@ class EditClientView(views.UpdateView):
     success_url = reverse_lazy('clients catalog')
 
     def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_staff or not request.user.is_superuser:
+        if request.user.is_staff or request.user.is_superuser:
+            return super(EditClientView, self).dispatch(request, *args, **kwargs)
+        else:
             return HttpResponseForbidden()
-        return super(EditClientView, self).dispatch(request, *args, **kwargs)
-
 
 
 # OK
