@@ -5,7 +5,7 @@ from OpportunityManagementTool.web.views import HomeView, DashboardView, CreateO
     EditProductView, ProductsListView, CreateBusinessGroupView, EditBusinessGroupView, BusinessGroupsListView, \
     CreateProductsOpportunityView, EditOpportunityProductsView, OpportunityCreateOverView, done, AddNewProductView, \
     start_editing, finish_editing, OppProductsView, delete_opp, DeleteClientView, DeleteProductView, \
-    ToBeDeletedOppsView, DeleteOpportunityView
+    ToBeDeletedOppsView, DeleteOpportunityView, DeleteOppProductView
 
 urlpatterns = (
     path('', HomeView.as_view(), name='index'),
@@ -19,6 +19,7 @@ urlpatterns = (
     path('edit/finish/<int:pk>/', finish_editing, name='finish edit'),
     path('opportunity/edit/<int:pk>/', EditOpportunityView.as_view(), name='edit opportunity'),
     path('opportunity/edit/product/<int:pk>/', EditOpportunityProductsView.as_view(), name='edit opportunity product'),
+    path('opportunity/delete/product/<int:pk>/', DeleteOppProductView.as_view(), name='delete opportunity product'),
     path('opportunity/details/<int:pk>/', OpportunityDetailsView.as_view(), name='details opportunity'),
     path('opportunity/all/products/<int:pk>/', OppProductsView.as_view(), name='opportunity all products'),
     path('opportunity/products/new/', AddNewProductView.as_view(), name='opportunity new product add'),

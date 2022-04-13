@@ -229,6 +229,22 @@ class EditOpportunityProductsView(views.UpdateView):
         return reverse_lazy('opportunity all products', kwargs={'pk': self.object.opportunity_id})
 
 
+class DeleteOppProductView(views.DeleteView):
+    model = OpportunityProducts
+    template_name = 'web/opp_product_delete.html'
+
+    def get_success_url(self):
+        return reverse_lazy('opportunity all products', kwargs={'pk': self.object.opportunity_id})
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+
+        success_url = self.get_success_url()
+        self.object.delete()
+
+        return HttpResponseRedirect(success_url)
+
+
 # OK
 class AddNewProductView(auth_mixin.LoginRequiredMixin, views.CreateView):
     form_class = AddNewProductForm
