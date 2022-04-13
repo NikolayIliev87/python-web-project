@@ -66,6 +66,12 @@ class CreateProductsOpportunityForm(forms.ModelForm):
         products = super().save(commit=False)
 
         products.opportunity = self.opportunity
+        name = self.cleaned_data['name']
+        prod_id = Product.objects.get(name=name)
+        if OpportunityProducts.objects.filter(name_id=prod_id, opportunity_id=self.opportunity.pk).exists():
+            raise Exception('This Product was already included in the Opportunity')
+
+        products.opportunity = self.opportunity
         if commit:
             products.save()
         # TO BE REMOVED IF NOT WORKING MANY2MANY
@@ -101,7 +107,7 @@ class AddNewProductForm(forms.ModelForm):
         products.opportunity = self.opportunity
         name = self.cleaned_data['name']
         prod_id = Product.objects.get(name=name)
-        if OpportunityProducts.objects.get(name_id=prod_id, opportunity_id=self.opportunity.pk):
+        if OpportunityProducts.objects.filter(name_id=prod_id, opportunity_id=self.opportunity.pk).exists():
             raise Exception('This Product was already included in the Opportunity')
 
         if commit:

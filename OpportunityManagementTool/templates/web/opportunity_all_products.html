@@ -14,7 +14,7 @@
                             <p> {{ id.gross_price }}</p>
                         </li>
                         <div>
-                            <a id="editbtn" href="{% url 'edit opportunity product' id.pk %}" >Edit</a> <a id="deletebtn" href="#" >Delete</a>
+                            <a id="editbtn" href="{% url 'edit opportunity product' id.pk %}" >Edit</a> <a id="deletebtn" href="{% url 'delete opportunity product' id.pk %}" >Delete</a>
                         </div>
                     {% endif %}
                 {% endfor %}
