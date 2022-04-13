@@ -1,5 +1,8 @@
 from django import forms
 from django.core.exceptions import ValidationError
+from django.http import HttpResponseRedirect
+from django.shortcuts import redirect
+from django.urls import reverse_lazy
 
 from OpportunityManagementTool.web.models import Opportunity, Client, Product, BusinessGroup, OpportunityProducts
 
@@ -96,6 +99,11 @@ class AddNewProductForm(forms.ModelForm):
         products = super().save(commit=False)
 
         products.opportunity = self.opportunity
+        name = self.cleaned_data['name']
+        prod_id = Product.objects.get(name=name)
+        if OpportunityProducts.objects.get(name_id=prod_id, opportunity_id=self.opportunity.pk):
+            raise Exception('This Product was already included in the Opportunity')
+
         if commit:
             products.save()
         # TO BE REMOVED IF NOT WORKING MANY2MANY

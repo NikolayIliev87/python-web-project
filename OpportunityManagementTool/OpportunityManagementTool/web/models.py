@@ -147,23 +147,6 @@ class Opportunity(models.Model):
         default=False
     )
 
-    # @property
-    # def final_price(self):
-    #     amount = sum([(i.price * i.id.) for i in self.products.all()])
-    #
-    #     return amount
-
-    # @property
-    # def size_tire(self):
-    #     if self.final_price / 100 <= 0.1:
-    #         return "0-10K"
-    #     elif self.final_price / 100 <= 0.5:
-    #         return "10K=50K"
-    #     elif self.final_price / 100 <= 1.0:
-    #         return "50K-100K"
-    #     else:
-    #         return "Above 100K"
-
 
 class OpportunityProducts(models.Model):
     name = models.ForeignKey(
