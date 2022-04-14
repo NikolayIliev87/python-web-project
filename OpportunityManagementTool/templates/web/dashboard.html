@@ -21,13 +21,14 @@
         </div>
     </section>
 {% else %}
+<table>
     <div class="items-list">
         {% if request.user.is_authenticated %}
-            <h2> Your activities: </h2>
+            <h2> Yours/team activities: </h2>
             <h2> # Opps: {{ opp_num }} </h2>
             <h2> Total Net: {{ opps_total|floatformat:2 }}$ </h2>
                 {% for opp in opportunities %}
-                    {% if opp.owner == request.user or opp.owner.manager == request.user %}
+                    {% if opp.owner == request.user %}
                         <li>
                             <div>
                                 <p> Opp Name: {{ opp.name }} </p>
@@ -46,15 +47,50 @@
                         <div>
                             <a id="detailbtn" href="{% url 'details opportunity' opp.id %}">Details</a>
                         </div>
+                    {% else %}
+                        {% for employee in manager_emplyees %}
+                            {% if opp.owner|stringformat:'e' == employee|stringformat:'e' %}
+                                <li>
+                                    <div>
+                                        <p> Opp Name: {{ opp.name }} </p>
+                                        <p> Owner: {{ opp.owner }} </p>
+                                        <p> Status: {{ opp.status }} </p>
+                                        <p> Client: {{ opp.client }} </p>
+                                    </div>
+                                    {% for key, value in opp_gross_amount.items %}
+                                        {% if key == opp.id %}
+                                            <div id="opp-net-total">
+                                                Opp Net Amount: {{ value|floatformat:2 }}$
+                                            </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                </li>
+                                <div>
+                                    <a id="detailbtn" href="{% url 'details opportunity' opp.id %}">Details</a>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
                     {% endif %}
                 {% endfor %}
-
-        {% else %}
-            <h2>FOR DASHBOARD PLEASE LOGIN or REQUEST USER</h2>
-            <div >
-                <a href="{% url 'request user' %}" >Request User</a>
-            </div>
         {% endif %}
+        <div class="pagination">
+            <span>
+                {% if page_obj.has_previous %}
+                    <a href="?page=1">&laquo; First</a>
+                    <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                {% endif %}
+
+                <span class="current">
+                    <a class="active"> Page {{ page_obj.number }}</a>
+                </span>
+
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}">Next</a>
+                    <a href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
     </div>
+</table>
 {% endif %}
 {% endblock %}
