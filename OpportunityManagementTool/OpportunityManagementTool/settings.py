@@ -59,6 +59,7 @@ THIRD_PARTY_APPS = ()
 INSTALLED_APPS = DJANGO_APPS + OPPORTUNITYMANAGEMENTTOOL_APPS + THIRD_PARTY_APPS
 
 MIDDLEWARE = [
+    'OpportunityManagementTool.middlewares.handle_exception',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
