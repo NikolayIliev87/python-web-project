@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect, HttpResponseForbidden
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views import generic as views
-from OpportunityManagementTool.auth_app.models import Profile
+from OpportunityManagementTool.auth_app.models import Profile, Manager
 
 from OpportunityManagementTool.web.forms import CreateOpportunityForm, CreateClientForm, CreateProductForm, \
     CreateBusinessGroupForm, CreateProductsOpportunityForm, AddNewProductForm
@@ -427,4 +427,14 @@ class BusinessGroupsListView(views.ListView):
     model = BusinessGroup
     template_name = 'web/business_group_list.html'
     context_object_name = "businessgroups"
+
+
+# OK
+class ManagersListView(views.ListView):
+    model = Manager
+    template_name = 'web/managers_list.html'
+    context_object_name = "managers"
+
+    def get_queryset(self):
+        return Manager.objects.all().order_by('email')
 

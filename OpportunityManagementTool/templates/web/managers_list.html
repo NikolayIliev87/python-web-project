@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block page_content %}
+<div class="items-list">
+    <h2> All Available Managers </h2>
+    {% for manager in managers %}
+        <li>
+            <p>Email: {{ manager.email }}</p>
+            <p>BusinessUnit: {{ manager.user.profile.group }}</p>
+        </li>
+    {% endfor %}
+</div>
+{% endblock %}
