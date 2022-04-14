@@ -3,6 +3,7 @@ from django.http import HttpResponseRedirect, HttpResponseForbidden
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views import generic as views
+from OpportunityManagementTool.auth_app.models import Profile
 
 from OpportunityManagementTool.web.forms import CreateOpportunityForm, CreateClientForm, CreateProductForm, \
     CreateBusinessGroupForm, CreateProductsOpportunityForm, AddNewProductForm
@@ -24,6 +25,7 @@ class DashboardView(auth_mixin.LoginRequiredMixin, views.ListView):
     model = Opportunity
     template_name = 'web/dashboard.html'
     context_object_name = "opportunities"
+    paginate_by = 4
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -31,8 +33,13 @@ class DashboardView(auth_mixin.LoginRequiredMixin, views.ListView):
         opp_num = 0
         opps_total = 0
 
+        manager_profile = Profile.objects.filter(manager=self.request.user)
+        manager_emplyees = []
+        for item in manager_profile:
+            manager_emplyees.append(item.user.email)
+
         for el in Opportunity.objects.filter(to_be_deleted=False):
-            if el.owner == self.request.user or el.owner.manager == self.request.user.id:
+            if el.owner == self.request.user or str(el.owner) in manager_emplyees:
                 for prod in OpportunityProducts.objects.all():
                     if el.id == prod.opportunity_id:
                         if el.id in opp_gross_amount:
@@ -47,6 +54,7 @@ class DashboardView(auth_mixin.LoginRequiredMixin, views.ListView):
         context['opp_gross_amount'] = opp_gross_amount
         context['opp_num'] = opp_num
         context['opps_total'] = opps_total
+        context['manager_emplyees'] = manager_emplyees
         try:
             in_creation_mode = Opportunity.objects.get(is_edite=True, owner=self.request.user)
             if in_creation_mode:
@@ -55,9 +63,8 @@ class DashboardView(auth_mixin.LoginRequiredMixin, views.ListView):
         except:
             return context
 
-        # return context
     def get_queryset(self):
-        return Opportunity.objects.filter(to_be_deleted=False)
+        return Opportunity.objects.filter(to_be_deleted=False).order_by('owner')
 
 
 # OK
