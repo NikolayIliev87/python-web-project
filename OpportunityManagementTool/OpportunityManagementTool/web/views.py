@@ -25,7 +25,7 @@ class DashboardView(auth_mixin.LoginRequiredMixin, views.ListView):
     model = Opportunity
     template_name = 'web/dashboard.html'
     context_object_name = "opportunities"
-    paginate_by = 4
+    # paginate_by = 5
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -33,13 +33,14 @@ class DashboardView(auth_mixin.LoginRequiredMixin, views.ListView):
         opp_num = 0
         opps_total = 0
 
-        manager_profile = Profile.objects.filter(manager=self.request.user)
+        manager_email = Manager.objects.get(user_id=self.request.user.id)
+        manager_profile = Profile.objects.filter(manager=manager_email.email)
         manager_emplyees = []
         for item in manager_profile:
-            manager_emplyees.append(item.user.email)
+            manager_emplyees.append(item.user)
 
         for el in Opportunity.objects.filter(to_be_deleted=False):
-            if el.owner == self.request.user or str(el.owner) in manager_emplyees:
+            if el.owner == self.request.user or el.owner in manager_emplyees:
                 for prod in OpportunityProducts.objects.all():
                     if el.id == prod.opportunity_id:
                         if el.id in opp_gross_amount:

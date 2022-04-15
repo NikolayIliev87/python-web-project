@@ -48,9 +48,9 @@
                         <div>
                             <a id="detailbtn" href="{% url 'details opportunity' opp.id %}">Details</a>
                         </div>
-                    {% else %}
+                    {% elif opp.owner != request.user %}
                         {% for employee in manager_emplyees %}
-                            {% if opp.owner|stringformat:'e' == employee|stringformat:'e' %}
+                            {% if opp.owner == employee %}
                                 <li>
                                     <div>
                                         <p> Opp Name: {{ opp.name }} </p>
@@ -75,23 +75,23 @@
                     {% endif %}
                 {% endfor %}
         {% endif %}
-        <div class="pagination">
-            <span>
-                {% if page_obj.has_previous %}
-                    <a href="?page=1">&laquo; First</a>
-                    <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
-                {% endif %}
-
-                <span class="current">
-                    <a class="active"> Page {{ page_obj.number }}</a>
-                </span>
-
-                {% if page_obj.has_next %}
-                    <a href="?page={{ page_obj.next_page_number }}">Next</a>
-                    <a href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
-                {% endif %}
-            </span>
-        </div>
+{#        <div class="pagination">#}
+{#            <span>#}
+{#                {% if page_obj.has_previous %}#}
+{#                    <a href="?page=1">&laquo; First</a>#}
+{#                    <a href="?page={{ page_obj.previous_page_number }}">Previous</a>#}
+{#                {% endif %}#}
+{##}
+{#                <span class="current">#}
+{#                    <a class="active"> Page {{ page_obj.number }}</a>#}
+{#                </span>#}
+{##}
+{#                {% if page_obj.has_next %}#}
+{#                    <a href="?page={{ page_obj.next_page_number }}">Next</a>#}
+{#                    <a href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>#}
+{#                {% endif %}#}
+{#            </span>#}
+{#        </div>#}
     </div>
 </table>
 {% endif %}
