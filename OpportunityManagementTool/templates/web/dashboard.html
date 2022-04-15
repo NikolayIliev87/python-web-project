@@ -32,6 +32,7 @@
                         <li>
                             <div>
                                 <p> Opp Name: {{ opp.name }} </p>
+                                <p> Opp ID: {{ opp.id }} </p>
                                 <p> Owner: {{ opp.owner }} </p>
                                 <p> Status: {{ opp.status }} </p>
                                 <p> Client: {{ opp.client }} </p>
@@ -53,6 +54,7 @@
                                 <li>
                                     <div>
                                         <p> Opp Name: {{ opp.name }} </p>
+                                        <p> Opp ID: {{ opp.id }} </p>
                                         <p> Owner: {{ opp.owner }} </p>
                                         <p> Status: {{ opp.status }} </p>
                                         <p> Client: {{ opp.client }} </p>
@@ -66,7 +68,7 @@
                                     {% endfor %}
                                 </li>
                                 <div>
-                                    <a id="detailbtn" href="{% url 'details opportunity' opp.id %}">Details</a>
+                                    <h3> For Details: Please check with Opportunity owner </h3>
                                 </div>
                             {% endif %}
                         {% endfor %}
