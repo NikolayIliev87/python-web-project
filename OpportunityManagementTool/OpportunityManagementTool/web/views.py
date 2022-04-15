@@ -156,7 +156,7 @@ def delete_opp(request, pk):
 
 
 # OK
-class OpportunityCreateOverView(views.DetailView):
+class OpportunityCreateOverView(auth_mixin.LoginRequiredMixin, views.DetailView):
     model = Opportunity
     template_name = 'web/opportunity_create_overview.html'
     context_object_name = 'opportunity'
@@ -195,7 +195,7 @@ class OpportunityDetailsView(auth_mixin.LoginRequiredMixin, views.DetailView):
 
 
 # OK
-class EditOpportunityView(views.UpdateView):
+class EditOpportunityView(auth_mixin.LoginRequiredMixin, views.UpdateView):
     model = Opportunity
     template_name = 'web/opportunity_edit.html'
     fields = ('name', 'description', 'client', 'close_date')
@@ -227,7 +227,7 @@ class OppProductsView(auth_mixin.LoginRequiredMixin, views.DetailView):
 
 
 # OK
-class EditOpportunityProductsView(views.UpdateView):
+class EditOpportunityProductsView(auth_mixin.LoginRequiredMixin, views.UpdateView):
     model = OpportunityProducts
     template_name = 'web/opportunity_edit_products.html'
     fields = ('name', 'quantity',)
@@ -236,7 +236,7 @@ class EditOpportunityProductsView(views.UpdateView):
         return reverse_lazy('opportunity all products', kwargs={'pk': self.object.opportunity_id})
 
 
-class DeleteOppProductView(views.DeleteView):
+class DeleteOppProductView(auth_mixin.LoginRequiredMixin, views.DeleteView):
     model = OpportunityProducts
     template_name = 'web/opp_product_delete.html'
 
@@ -268,7 +268,7 @@ class AddNewProductView(auth_mixin.LoginRequiredMixin, views.CreateView):
 
 
 # OK
-class DeleteOpportunityView(views.DeleteView):
+class DeleteOpportunityView(auth_mixin.LoginRequiredMixin, views.DeleteView):
     model = Opportunity
     template_name = 'web/opportunity_delete_list.html'
     success_url = reverse_lazy('opps to be deleted')
@@ -304,7 +304,7 @@ class ClientDetailsView(auth_mixin.LoginRequiredMixin, views.DetailView):
 
 
 # OK
-class EditClientView(views.UpdateView):
+class EditClientView(auth_mixin.LoginRequiredMixin, views.UpdateView):
     model = Client
     template_name = 'web/client_edit.html'
     fields = ('name', 'city', 'email', 'phone', 'discount',)
@@ -318,14 +318,14 @@ class EditClientView(views.UpdateView):
 
 
 # OK
-class ClientsListView(views.ListView):
+class ClientsListView(auth_mixin.LoginRequiredMixin, views.ListView):
     model = Client
     template_name = 'web/clients_list.html'
     context_object_name = "clients"
 
 
 # OK
-class DeleteClientView(views.DeleteView):
+class DeleteClientView(auth_mixin.LoginRequiredMixin, views.DeleteView):
     model = Client
     template_name = 'web/client_delete.html'
     success_url = reverse_lazy('clients catalog')
@@ -357,7 +357,7 @@ class CreateProductView(auth_mixin.LoginRequiredMixin, views.CreateView):
 
 
 # OK
-class EditProductView(views.UpdateView):
+class EditProductView(auth_mixin.LoginRequiredMixin, views.UpdateView):
     model = Product
     template_name = 'web/product_edit.html'
     fields = ('name', 'group', 'price',)
@@ -370,14 +370,14 @@ class EditProductView(views.UpdateView):
 
 
 # OK
-class ProductsListView(views.ListView):
+class ProductsListView(auth_mixin.LoginRequiredMixin, views.ListView):
     model = Product
     template_name = 'web/products_list.html'
     context_object_name = "products"
 
 
 # Ok
-class DeleteProductView(views.DeleteView):
+class DeleteProductView(auth_mixin.LoginRequiredMixin, views.DeleteView):
     model = Product
     template_name = 'web/product_delete.html'
     success_url = reverse_lazy('products catalog')
@@ -410,7 +410,7 @@ class CreateBusinessGroupView(auth_mixin.LoginRequiredMixin, views.CreateView):
 
 
 # OK
-class EditBusinessGroupView(views.UpdateView):
+class EditBusinessGroupView(auth_mixin.LoginRequiredMixin, views.UpdateView):
     model = BusinessGroup
     template_name = 'web/business_group_edit.html'
     fields = ('name',)
@@ -423,14 +423,14 @@ class EditBusinessGroupView(views.UpdateView):
 
 
 # OK
-class BusinessGroupsListView(views.ListView):
+class BusinessGroupsListView(auth_mixin.LoginRequiredMixin, views.ListView):
     model = BusinessGroup
     template_name = 'web/business_group_list.html'
     context_object_name = "businessgroups"
 
 
 # OK
-class ManagersListView(views.ListView):
+class ManagersListView(auth_mixin.LoginRequiredMixin, views.ListView):
     model = Manager
     template_name = 'web/managers_list.html'
     context_object_name = "managers"
