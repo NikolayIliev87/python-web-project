@@ -3,7 +3,7 @@
 <section class="editPage">
     <form method="post" action="{% url 'edit opportunity product' opportunityproducts.id %}">
         <fieldset>
-            <legend>Edi Opportunity Product</legend>
+            <legend>Edit Opportunity Product</legend>
             <div class="container">
                 {% csrf_token %}
                 {{ form }}
