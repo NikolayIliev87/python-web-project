@@ -3,6 +3,7 @@ from django.http import HttpResponseRedirect, HttpResponseForbidden
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views import generic as views
+from django.db.models import Q
 from OpportunityManagementTool.auth_app.models import Profile, Manager
 
 from OpportunityManagementTool.web.forms import CreateOpportunityForm, CreateClientForm, CreateProductForm, \
@@ -65,7 +66,7 @@ class DashboardView(auth_mixin.LoginRequiredMixin, views.ListView):
             return context
 
     def get_queryset(self):
-        return Opportunity.objects.filter(to_be_deleted=False).order_by('owner')
+        return Opportunity.objects.filter(Q(to_be_deleted=False) & Q(newly_created=False)).order_by('owner')
 
 
 # OK
@@ -146,7 +147,8 @@ def finish_editing(request, pk):
     opp = Opportunity.objects.get(pk=pk)
     opp.is_edite = False
     opp.save()
-    return redirect('details opportunity', pk)
+    return redirect('dashboard')
+    # return redirect('details opportunity', pk)
 
 
 def delete_opp(request, pk):
